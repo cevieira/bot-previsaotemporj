@@ -15,7 +15,7 @@ app.listen(server_port, server_host, function () {
     console.log("Aplicação online.");
 });
 
-var job = new CronJob('* * * * * *', function () {
+var job = new CronJob('01 * * * *', function () {
     buscarPrevisao(function (data) {
         console.log(data);
         cliente.tweetar("O Rio de Janeiro está com o tempo " + data + " agora" );
