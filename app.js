@@ -1,3 +1,4 @@
+require('dotenv').config({path: __dirname + '/.env'});
 var app = require("./config/server.js"); 
 var cliente = require("./config/twitter.js"); 
 var CronJob = require('cron').CronJob;
@@ -7,8 +8,8 @@ var server_port = process.env.YOUR_PORT || process.env.PORT || 3000;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
 
 function buscarPrevisao(callbackFunction) {
-    axios.get('https://api.hgbrasil.com/weather?woeid=90200707')
-        .then(res => (callbackFunction(res.data.results.description)));
+    axios.get('http://apiadvisor.climatempo.com.br/api/v1/weather/locale/5959/current?token=' + process.env.api_token)
+        .then(res => (callbackFunction(res.data.data)));
 }
 
 app.listen(server_port, server_host, function () {
@@ -18,7 +19,7 @@ app.listen(server_port, server_host, function () {
 var job = new CronJob('01 * * * *', function () {
     buscarPrevisao(function (data) {
         console.log(data);
-        cliente.tweetar("O Rio de Janeiro está com o tempo " + data + " agora" );
+        cliente.tweetar('O Rio de Janeiro está com ' + data.temperature + ' graus de temperatura, com sensação de ' + data.sensation + ' graus e com ' + data.condition.toLowerCase() );
     });
 
 },
