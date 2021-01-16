@@ -19,7 +19,7 @@ app.listen(server_port, server_host, function () {
 var job = new CronJob('01 * * * *', function () {
     buscarPrevisao(function (data) {
         console.log(data);
-        cliente.tweetar('O Rio de Janeiro está com ' + data.temperature + ' graus de temperatura, com sensação de ' + data.sensation + ' graus e com ' + data.condition.toLowerCase() );
+        cliente.tweetar('O Rio de Janeiro está com ' + data.temperature + '° de temperatura, com sensação de ' + data.sensation + '° e com ' + data.condition.toLowerCase() );
     });
 
 },
